@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from '@prisma/client';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/modules/prisma/prisma.service';
 
 @Injectable()
 export class TodosService {
