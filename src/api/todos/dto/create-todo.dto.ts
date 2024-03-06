@@ -15,5 +15,5 @@ export class CreateTodoDto {
   @IsBoolean({
     message: `Writing must be of Boolean type.`
   })
-  is_doen: boolean;
+  is_done: boolean;
 }
