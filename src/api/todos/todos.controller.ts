@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpException, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpException, HttpStatus, HttpCode, UseInterceptors } from '@nestjs/common';
 import { TodosService } from './todos.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
+import { TransformInterceptor } from 'src/modules/interceptors/transform.interceptor';
 
 @Controller('todos')
+@UseInterceptors(TransformInterceptor)
 export class TodosController {
   constructor(private readonly todosService: TodosService) { }
 
@@ -16,7 +18,7 @@ export class TodosController {
     return {
       message: `Created successfully`,
       statusCode: 200,
-      data: createTodo
+      result: createTodo
     }
   }
 
@@ -29,7 +31,7 @@ export class TodosController {
     return {
       message: `Fetched successfully`,
       statusCode: 200,
-      data: fetchTodo
+      result: fetchTodo
     }
   }
 
@@ -44,7 +46,7 @@ export class TodosController {
     return {
       message: `${id} todo fetched successfully`,
       statusCode: 200,
-      data: findTodo
+      result: findTodo
     }
   }
 
@@ -61,7 +63,7 @@ export class TodosController {
     return {
       message: `${id} todo updated successfully`,
       statusCode: 200,
-      data: updateTodo
+      result: updateTodo
     }
   }
 
@@ -78,7 +80,7 @@ export class TodosController {
     return {
       message: `${id} todo deleted successfully`,
       statusCode: 200,
-      data: deleteTodo
+      result: deleteTodo
     }
   }
 }
