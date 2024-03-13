@@ -7,7 +7,7 @@ export class CreateTodoDto {
   @MinLength(5, {
     message: `Title must be at least 5 characters long.`
   })
-  @MaxLength(10, {
+  @MaxLength(30, {
     message: `Title can be up to 30 characters long.`
   })
   title: string;

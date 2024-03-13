@@ -2,57 +2,50 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpEx
 import { TodosService } from './todos.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
-import { TransformInterceptor } from 'src/modules/interceptors/transform.interceptor';
+import { ResponseTransformInterceptor } from 'src/etc/interceptors/transform.interceptor';
+import { ResponseMsg } from 'src/etc/decorators/response.message';
 
 @Controller('todos')
-@UseInterceptors(TransformInterceptor)
+@UseInterceptors(ResponseTransformInterceptor)
 export class TodosController {
   constructor(private readonly todosService: TodosService) { }
 
   //create
   @Post()
   @HttpCode(HttpStatus.OK)
+  @ResponseMsg(`Created successfully`)
   async create(@Body() createTodoDto: CreateTodoDto) {
     const createTodo = await this.todosService.create(createTodoDto);
 
-    return {
-      message: `Created successfully`,
-      statusCode: 200,
-      result: createTodo
-    }
+    return createTodo;
   }
 
   //read
   @Get()
   @HttpCode(HttpStatus.OK)
+  @ResponseMsg(`All list fetched successfully`)
   async findAll() {
     const fetchTodo = await this.todosService.findAll();
 
-    return {
-      message: `Fetched successfully`,
-      statusCode: 200,
-      result: fetchTodo
-    }
+    return fetchTodo;
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
+  @ResponseMsg(`fetched successfully`)
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const findTodo = await this.todosService.findOne(+id);
     if (findTodo == null) {
       throw new HttpException(`${id} todo is not existed`, HttpStatus.NOT_FOUND)
     }
 
-    return {
-      message: `${id} todo fetched successfully`,
-      statusCode: 200,
-      result: findTodo
-    }
+    return findTodo;
   }
 
   //update
   @Post(':id')
   @HttpCode(HttpStatus.OK)
+  @ResponseMsg(`Updated successfully`)
   async update(@Param('id', ParseIntPipe) id: number, @Body() updateTodoDto: UpdateTodoDto) {
     const findTodo = await this.todosService.findOne(+id);
     if (findTodo == null) {
@@ -60,16 +53,13 @@ export class TodosController {
     }
     const updateTodo = await this.todosService.update(+id, updateTodoDto);
 
-    return {
-      message: `${id} todo updated successfully`,
-      statusCode: 200,
-      result: updateTodo
-    }
+    return updateTodo;
   }
 
   //delete
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
+  @ResponseMsg(`Deleted successfully`)
   async remove(@Param('id', ParseIntPipe) id: number) {
     const foundTodo = await this.todosService.findOne(+id);
     if (foundTodo == null) {
@@ -77,10 +67,6 @@ export class TodosController {
     }
     const deleteTodo = await this.todosService.remove(+id);
 
-    return {
-      message: `${id} todo deleted successfully`,
-      statusCode: 200,
-      result: deleteTodo
-    }
+    return deleteTodo;
   }
 }
