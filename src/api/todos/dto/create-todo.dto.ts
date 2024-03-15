@@ -1,6 +1,16 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { IsBoolean, IsString, MaxLength, MinLength } from "class-validator";
 
 export class CreateTodoDto {
+  @ApiProperty({
+    required: true,
+    type: String,
+    description: 'Todo`s title',
+    example: 'NestJS practice',
+    default: '',
+    minimum: 6,
+    maximum: 30
+  })
   @IsString({
     message: `Title type must be string.`
   })
@@ -12,6 +22,13 @@ export class CreateTodoDto {
   })
   title: string;
 
+  @ApiProperty({
+    required: true,
+    type: Boolean,
+    description: 'Todo check done',
+    example: 'false',
+    default: false
+  })
   @IsBoolean({
     message: `Writing must be of Boolean type.`
   })
