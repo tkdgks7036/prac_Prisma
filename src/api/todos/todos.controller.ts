@@ -4,7 +4,9 @@ import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { ResponseTransformInterceptor } from 'src/etc/interceptors/transform.interceptor';
 import { ResponseMsg } from 'src/etc/decorators/response.message';
+import { ApiForbiddenResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('todos')
 @Controller('todos')
 @UseInterceptors(ResponseTransformInterceptor)
 export class TodosController {
@@ -14,6 +16,17 @@ export class TodosController {
   @Post()
   @HttpCode(HttpStatus.OK)
   @ResponseMsg(`Created successfully`)
+  @ApiOkResponse({ description: 'Created successfully', type: CreateTodoDto })
+  @ApiForbiddenResponse({ description: 'Created failed' })
+  @ApiOperation({
+    summary: 'Created todo',
+    description: 'Created 1 todo',
+    deprecated: false,
+    externalDocs: {
+      description: 'Swagger in NestJS Docs',
+      url: 'https://docs.nestjs.com/openapi/introduction'
+    }
+  })
   async create(@Body() createTodoDto: CreateTodoDto) {
     const createTodo = await this.todosService.create(createTodoDto);
 
@@ -24,6 +37,17 @@ export class TodosController {
   @Get()
   @HttpCode(HttpStatus.OK)
   @ResponseMsg(`All list fetched successfully`)
+  @ApiOkResponse({ description: 'All list fetched successfully', type: CreateTodoDto })
+  @ApiForbiddenResponse({ description: 'Fetched failed' })
+  @ApiOperation({
+    summary: 'Fetched All todos',
+    description: 'Fetched All todos',
+    deprecated: false,
+    externalDocs: {
+      description: 'Swagger in NestJS Docs',
+      url: 'https://docs.nestjs.com/openapi/introduction'
+    }
+  })
   async findAll() {
     const fetchTodo = await this.todosService.findAll();
 
@@ -32,7 +56,18 @@ export class TodosController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  @ResponseMsg(`fetched successfully`)
+  @ResponseMsg(`Fetched specific todo successfully`)
+  @ApiOkResponse({ description: `Fetched specific todo successfully`, type: CreateTodoDto })
+  @ApiForbiddenResponse({ description: `Fetched specific todo failed` })
+  @ApiOperation({
+    summary: 'Fetched specific todo',
+    description: 'Fetched specific todo',
+    deprecated: false,
+    externalDocs: {
+      description: 'Swagger in NestJS Docs',
+      url: 'https://docs.nestjs.com/openapi/introduction'
+    }
+  })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const findTodo = await this.todosService.findOne(+id);
     if (findTodo == null) {
@@ -45,7 +80,18 @@ export class TodosController {
   //update
   @Post(':id')
   @HttpCode(HttpStatus.OK)
-  @ResponseMsg(`Updated successfully`)
+  @ResponseMsg(`Updated specific todo successfully`)
+  @ApiOkResponse({ description: `Updated specific todo successfully`, type: UpdateTodoDto })
+  @ApiForbiddenResponse({ description: 'Updated failed' })
+  @ApiOperation({
+    summary: 'Updated specific todo',
+    description: 'Updated specific todo',
+    deprecated: false,
+    externalDocs: {
+      description: 'Swagger in NestJS Docs',
+      url: 'https://docs.nestjs.com/openapi/introduction'
+    }
+  })
   async update(@Param('id', ParseIntPipe) id: number, @Body() updateTodoDto: UpdateTodoDto) {
     const findTodo = await this.todosService.findOne(+id);
     if (findTodo == null) {
@@ -59,7 +105,18 @@ export class TodosController {
   //delete
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  @ResponseMsg(`Deleted successfully`)
+  @ResponseMsg(`Deleted specific todo successfully`)
+  @ApiOkResponse({ description: `Deleted specific todo successfully`, type: CreateTodoDto })
+  @ApiForbiddenResponse({ description: 'Deleted failed' })
+  @ApiOperation({
+    summary: 'Deleted specific todo',
+    description: 'Deleted specific todo',
+    deprecated: false,
+    externalDocs: {
+      description: 'Swagger in NestJS Docs',
+      url: 'https://docs.nestjs.com/openapi/introduction'
+    }
+  })
   async remove(@Param('id', ParseIntPipe) id: number) {
     const foundTodo = await this.todosService.findOne(+id);
     if (foundTodo == null) {

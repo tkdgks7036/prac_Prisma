@@ -13,7 +13,7 @@ export class TodosService {
     return this.prisma.todo.create({
       data: {
         title: createTodoDto.title,
-        isDone: createTodoDto.is_done,
+        isDone: createTodoDto.isDone,
       },
     })
   }
@@ -33,16 +33,13 @@ export class TodosService {
 
   //update
   async update(id: number, updateTodoDto: UpdateTodoDto): Promise<Todo> {
-    console.log(updateTodoDto.title);
-    console.log(updateTodoDto.is_done);
-    
     return this.prisma.todo.update({
       where: {
         id,
       },
       data: {
         title: updateTodoDto.title,
-        isDone: updateTodoDto.is_done,
+        isDone: updateTodoDto.isDone,
       },
     })
   }
