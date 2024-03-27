@@ -1,8 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Todo } from "@prisma/client";
 import { IsBoolean, IsString, MaxLength, MinLength } from "class-validator";
 
-export class CreateTodoDto implements Todo {
+export class CreateTodoDto{
   @ApiProperty({
     type: Number,
     description: 'Todo`s id number',
